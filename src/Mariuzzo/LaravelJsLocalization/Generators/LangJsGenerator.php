@@ -71,8 +71,31 @@ class LangJsGenerator
         }
 
         $messages = $this->getMessages($options['no-sort']);
+
         $this->prepareTarget($target);
 
+        return !empty($options['group-locales'])
+            ? $this->writeGroupedMessages($target, $messages, $options)
+            : $this->writeMessages($target, $messages, $options);
+    }
+
+    protected function writeGroupedMessages($target, $messages, $options)
+    {
+        $groups = collect($messages)->groupBy(fn ($messages, $key) => Str::before($key, '.'), true);
+        foreach ($groups as $locale => $messages) {
+            $fileExtension = Str::afterLast($target, ".");
+            $localeTarget = Str::replace(".{$fileExtension}", "-{$locale}.{$fileExtension}", $target);
+
+            if (! $this->writeMessages($localeTarget, $messages, $options)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    protected function writeMessages($target, $messages, $options)
+    {
         if ($options['no-lib']) {
             $template = $this->file->get(__DIR__.'/Templates/messages.js');
         } else if ($options['json']) {
