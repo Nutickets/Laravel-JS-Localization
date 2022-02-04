@@ -68,6 +68,7 @@ class LangJsCommand extends Command
             'source' => $this->option('source'),
             'no-sort' => $this->option('no-sort'),
             'group-locales' => $this->option('group-locales'),
+            'window-object' => $this->option('window-object'),
         ];
 
         if ($this->generator->generate($target, $options)) {
@@ -112,6 +113,7 @@ class LangJsCommand extends Command
             ['compress', 'c', InputOption::VALUE_NONE, 'Compress the JavaScript file.', null],
             ['no-lib', 'nl', InputOption::VALUE_NONE, 'Do not include the lang.js library.', null],
             ['json', 'j', InputOption::VALUE_NONE, 'Only output the messages json.', null],
+            ['window-object', 'wo', InputOption::VALUE_NONE, 'Output the messages in a JSON window object.', null],
             ['source', 's', InputOption::VALUE_REQUIRED, 'Specifying a custom source folder', null],
             ['no-sort', 'ns', InputOption::VALUE_NONE, 'Do not sort the messages', null],
             ['group-locales', 'gl', InputOption::VALUE_NONE, 'Separate generated messages by locale', null],

@@ -100,6 +100,8 @@ class LangJsGenerator
             $template = $this->file->get(__DIR__.'/Templates/messages.js');
         } else if ($options['json']) {
             $template = $this->file->get(__DIR__.'/Templates/messages.json');
+        } else if ($options['window-object']) {
+            $template = $this->file->get(__DIR__.'/Templates/messages_as_window_object.js');
         } else {
             $template = $this->file->get(__DIR__.'/Templates/langjs_with_messages.js');
             $langjs = $this->file->get(__DIR__.'/../../../../lib/lang.min.js');
