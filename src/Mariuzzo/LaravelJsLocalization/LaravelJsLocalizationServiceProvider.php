@@ -77,7 +77,17 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
             } elseif ($laravelMajorVersion >= 5) {
                 $langs = $app['path.base'].'/resources/lang';
             }
+
+            /**
+             * A hotfix for the original code assuming that the `lang` directory will be moved up a level out of the
+             * `resources` directory. There are a few PRs / issues on the upstream repo that try to address this,
+             * however for now none have been merged. This can likely just be removed once they're merged.
+             * @see https://github.com/rmariuzzo/Laravel-JS-Localization/pull/201
+             * @see https://github.com/rmariuzzo/Laravel-JS-Localization/pull/172/files
+             * @see https://github.com/rmariuzzo/Laravel-JS-Localization/pull/203#issuecomment-2693795813
+             */
             $langs = lang_path();
+
             $messages = $app['config']->get('localization-js.messages');
             $generator = new Generators\LangJsGenerator($files, $langs, $messages);
 
